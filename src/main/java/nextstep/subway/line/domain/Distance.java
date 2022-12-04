@@ -1,5 +1,7 @@
 package nextstep.subway.line.domain;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -54,7 +56,8 @@ public class Distance {
         if(isZero(distance)) {
             throw new IllegalArgumentException(ErrorCode.나누는_값은_0일_수_없음.getErrorMessage());
         }
-        return (int) Math.ceil((double) this.distance / distance.distance);
+        return BigDecimal.valueOf(this.distance)
+                .divide(BigDecimal.valueOf(distance.distance), 0, RoundingMode.CEILING).intValue();
     }
 
     private boolean isZero(Distance distance) {
